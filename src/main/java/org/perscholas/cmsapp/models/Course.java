@@ -6,12 +6,11 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
 @Entity
-@Table(name = "stu")
+@Table(name = "courses")
 @Slf4j
 @NoArgsConstructor
 @Setter
@@ -20,7 +19,7 @@ import java.util.Set;
 @EqualsAndHashCode
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Students {
+public class Course {
 
     @Id @NonNull
     int id;
@@ -29,13 +28,11 @@ public class Students {
     String name;
 
     @NonNull
-    String email;
+    String instructor;
+
 
     @ToString.Exclude
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(name = "student_courses",
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id"))
-    Set<Course> courses = new LinkedHashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "courses", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    private Set<Students> students = new LinkedHashSet<>();
 
 }
